@@ -22,7 +22,7 @@ const Body = (props) => {
             </div>
           );
         })}
-      <Button onClick={handleClick}>Get the posts</Button>
+      <Button id="getPostsBtn" onClick={handleClick}>Get the posts</Button>
     </div>
   );
 };

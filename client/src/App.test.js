@@ -14,6 +14,8 @@ Enzyme.configure({ adapter: new Adapter() });
 import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
 
+import sinon from 'sinon';
+
 import { create, update } from 'react-test-renderer';
 
 const posts = [
@@ -118,15 +120,27 @@ describe("App renders without crashing", () => {
     });
   });
 
-  it('button triggers prop fn', () => {
-    const fn = jest.fn();
-    let tree = create(<Body onClick={fn} />);
-    // console.log(tree.debug());
-    // simulate btn click
-    const button = tree.root.findByType('button');
-    button.props.onClick();
-    // verify callback
-    console.log(fn.mock);
-    expect(fn.mock.calls.length).toBe(1);
+  it('button triggers handleClick', () => {
+    // const fn = jest.fn();
+    // let tree = create(<Body onClick={fn} />);
+    // // console.log(tree.debug());
+    // // simulate btn click
+    // const button = tree.root.findByType('button');
+    // button.props.onClick();
+    // // verify callback
+    // // console.log(tree.root.findByType("button"), ' btnn');
+    // expect(fn.mock.calls.length).toBe(1);
+    // const mockCallBack = jest.fn();
+    // const button = shallow((<Body onClick={mockCallBack}>Ok!</Body>));
+    // // console.log(button.debug());
+    // button.find('#getPostsBtn').prop('onClick');
+    // console.log(mockCallBack.mock, ' mock fn');
+    // expect(mockCallBack).toEqual(1);
+    const mockCallback = sinon.spy();
+    const button = shallow(<Body onClick={mockCallback}/>);
+
+    button.find('#getPostsBtn').prop('onClick');
+    console.log(mockCallback)
+    expect(mockCallback).toHaveProperty('callCount', 1);
   });
 });
